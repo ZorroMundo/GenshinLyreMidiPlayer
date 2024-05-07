@@ -327,29 +327,29 @@ public static class Keyboard
 
     private static readonly List<int> NightwindNotes = new()
     {
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+
         48, // C3
         50, // D3
         52, // E3
-        54, // F3
-        56, // G3
-        58, // A3
-        60, // B3
+        53, // F3
+        55, // G3
+        57, // A3
+        59, // B3
 
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
-
-        62, // C4
-        64, // D4
-        66, // E4
-        68, // F4
-        70, // G4
-        72, // A4
-        74, // B4
+        72, // C5
+        74, // D5
+        76, // E5
+        77, // F5
+        79, // G5
+        81, // A5
+        83, // B5
     };
 
     public static IEnumerable<VirtualKeyCode> GetLayout(Layout layout) => layout switch
