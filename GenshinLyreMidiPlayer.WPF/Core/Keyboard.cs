@@ -14,7 +14,8 @@ public static class Keyboard
     {
         WindsongLyre,
         FloralZither,
-        VintageLyre
+        VintageLyre,
+        NightwindHorn,
     }
 
     public enum Layout
@@ -32,7 +33,8 @@ public static class Keyboard
     {
         [Instrument.WindsongLyre] = "Windsong Lyre",
         [Instrument.FloralZither] = "Floral Zither",
-        [Instrument.VintageLyre]  = "Vintage Lyre"
+        [Instrument.VintageLyre]  = "Vintage Lyre",
+        [Instrument.NightwindHorn] = "Nightwind Horn",
     };
 
     public static readonly Dictionary<Layout, string> LayoutNames = new()
@@ -43,7 +45,7 @@ public static class Keyboard
         [Layout.DVORAK]      = "DVORAK",
         [Layout.DVORAKLeft]  = "DVORAK Left Handed",
         [Layout.DVORAKRight] = "DVORAK Right Handed",
-        [Layout.Colemak]     = "Colemak"
+        [Layout.Colemak]     = "Colemak",
     };
 
     private static readonly IReadOnlyList<VirtualKeyCode> AZERTY = new List<VirtualKeyCode>
@@ -70,7 +72,7 @@ public static class Keyboard
         VirtualKeyCode.VK_R,
         VirtualKeyCode.VK_T,
         VirtualKeyCode.VK_Y,
-        VirtualKeyCode.VK_U
+        VirtualKeyCode.VK_U,
     };
 
     private static readonly IReadOnlyList<VirtualKeyCode> Colemak = new List<VirtualKeyCode>
@@ -97,7 +99,7 @@ public static class Keyboard
         VirtualKeyCode.VK_S,
         VirtualKeyCode.VK_F,
         VirtualKeyCode.VK_O,
-        VirtualKeyCode.VK_I
+        VirtualKeyCode.VK_I,
     };
 
     private static readonly IReadOnlyList<VirtualKeyCode> DVORAK = new List<VirtualKeyCode>
@@ -124,7 +126,7 @@ public static class Keyboard
         VirtualKeyCode.VK_O,
         VirtualKeyCode.VK_K,
         VirtualKeyCode.VK_T,
-        VirtualKeyCode.VK_F
+        VirtualKeyCode.VK_F,
     };
 
     private static readonly IReadOnlyList<VirtualKeyCode> DVORAKLeft = new List<VirtualKeyCode>
@@ -151,7 +153,7 @@ public static class Keyboard
         VirtualKeyCode.VK_Y,
         VirtualKeyCode.VK_G,
         VirtualKeyCode.VK_R,
-        VirtualKeyCode.VK_T
+        VirtualKeyCode.VK_T,
     };
 
     private static readonly IReadOnlyList<VirtualKeyCode> DVORAKRight = new List<VirtualKeyCode>
@@ -178,7 +180,7 @@ public static class Keyboard
         VirtualKeyCode.VK_Y,
         VirtualKeyCode.VK_J,
         VirtualKeyCode.VK_O,
-        VirtualKeyCode.VK_I
+        VirtualKeyCode.VK_I,
     };
 
     private static readonly IReadOnlyList<VirtualKeyCode> QWERTY = new List<VirtualKeyCode>
@@ -205,7 +207,7 @@ public static class Keyboard
         VirtualKeyCode.VK_R,
         VirtualKeyCode.VK_T,
         VirtualKeyCode.VK_Y,
-        VirtualKeyCode.VK_U
+        VirtualKeyCode.VK_U,
     };
 
     private static readonly IReadOnlyList<VirtualKeyCode> QWERTZ = new List<VirtualKeyCode>
@@ -232,8 +234,10 @@ public static class Keyboard
         VirtualKeyCode.VK_R,
         VirtualKeyCode.VK_T,
         VirtualKeyCode.VK_Z,
-        VirtualKeyCode.VK_U
+        VirtualKeyCode.VK_U,
     };
+
+    // This goes from down to up in-game.
 
     private static readonly List<int> DefaultNotes = new()
     {
@@ -259,7 +263,7 @@ public static class Keyboard
         77, // F5
         79, // G5
         81, // A5
-        83  // B5
+        83, // B5
     };
 
     private static readonly List<int> VintageNotes = new()
@@ -286,7 +290,26 @@ public static class Keyboard
         77, // F5
         79, // G5
         80, // Ab5
-        82  // Bb5
+        82, // Bb5
+    };
+
+    private static readonly List<int> NightwindNotes = new()
+    {
+        48, // C3
+        50, // D3
+        52, // E3
+        54, // F3
+        56, // G3
+        58, // A3
+        60, // B3
+
+        62, // C4
+        64, // D4
+        66, // E4
+        68, // F4
+        70, // G4
+        72, // A4
+        74, // B4
     };
 
     public static IEnumerable<VirtualKeyCode> GetLayout(Layout layout) => layout switch
@@ -303,9 +326,10 @@ public static class Keyboard
 
     public static IList<int> GetNotes(Instrument instrument) => instrument switch
     {
-        Instrument.WindsongLyre => DefaultNotes,
-        Instrument.FloralZither => DefaultNotes,
-        Instrument.VintageLyre  => VintageNotes,
-        _                       => DefaultNotes
+        Instrument.WindsongLyre  => DefaultNotes,
+        Instrument.FloralZither  => DefaultNotes,
+        Instrument.VintageLyre   => VintageNotes,
+        Instrument.NightwindHorn => NightwindNotes,
+        _                        => DefaultNotes
     };
 }

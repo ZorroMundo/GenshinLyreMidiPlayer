@@ -502,6 +502,10 @@ public class LyrePlayerViewModel : Screen,
             case MidiEventType.NoteOn when noteEvent.Velocity <= 0:
                 return;
             case MidiEventType.NoteOn when Settings.HoldNotes:
+            // The Nightwind Horn allows holding notes,
+            // so we hold down the note when this
+            // instrument is being played.
+            case MidiEventType.NoteOn when instrument == Keyboard.Instrument.NightwindHorn:
                 LyrePlayer.NoteDown(note, layout, instrument);
                 break;
             case MidiEventType.NoteOn:
