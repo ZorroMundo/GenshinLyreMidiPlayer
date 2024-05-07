@@ -19,6 +19,7 @@ using Stylet;
 using StyletIoC;
 using static GenshinLyreMidiPlayer.WPF.ViewModels.SettingsPageViewModel;
 using MidiFile = GenshinLyreMidiPlayer.Data.Midi.MidiFile;
+using SimWinInput;
 
 namespace GenshinLyreMidiPlayer.WPF.ViewModels;
 
@@ -184,7 +185,10 @@ public class LyrePlayerViewModel : Screen,
             await InitializePlayback();
 
         if (Playback!.IsRunning)
+        {
             Playback.Stop();
+            SimGamePad.Instance.Unplug();
+        }
         else
         {
             var time = new MetricTimeSpan(CurrentTime);
@@ -192,7 +196,10 @@ public class LyrePlayerViewModel : Screen,
             Playback.MoveToTime(time);
 
             if (Settings.UseSpeakers)
+            {
                 Playback.Start();
+                SimGamePad.Instance.PlugIn();
+            }
             else
             {
                 WindowHelper.EnsureGameOnTop();
@@ -202,6 +209,7 @@ public class LyrePlayerViewModel : Screen,
                 {
                     Playback.PlaybackStart = Playback.GetCurrentTime(TimeSpanType.Midi);
                     Playback.Start();
+                    SimGamePad.Instance.PlugIn();
                 }
             }
         }
@@ -215,6 +223,7 @@ public class LyrePlayerViewModel : Screen,
 
             Playback.Stop();
             Playback.Dispose();
+            SimGamePad.Instance.Unplug();
         }
 
         MidiTracks.Clear();
@@ -270,10 +279,12 @@ public class LyrePlayerViewModel : Screen,
         {
             var isRunning = Playback.IsRunning;
             Playback.Stop();
+            SimGamePad.Instance.Unplug();
             Playback.MoveToTime(new MetricTimeSpan(_songPosition));
 
             if (Settings.UseSpeakers && isRunning)
                 Playback.Start();
+                SimGamePad.Instance.PlugIn();
         }
 
         _ignoreSliderChange = false;
@@ -295,10 +306,12 @@ public class LyrePlayerViewModel : Screen,
         if (CurrentTime > TimeSpan.FromSeconds(3))
         {
             Playback?.Stop();
+            SimGamePad.Instance.Unplug();
             Playback?.MoveToStart();
 
             MoveSlider(TimeSpan.Zero);
             Playback?.Start();
+            SimGamePad.Instance.PlugIn();
         }
         else
             Playlist.Previous();
@@ -364,6 +377,10 @@ public class LyrePlayerViewModel : Screen,
 
     private async Task InitializePlayback()
     {
+        // I probably should only use it if
+        // the input layout is Joystick.
+        SimGamePad.Instance.PlugIn();
+        
         Playback?.Stop();
         Playback?.Dispose();
 
@@ -491,6 +508,7 @@ public class LyrePlayerViewModel : Screen,
         if (!WindowHelper.IsGameFocused())
         {
             Playback?.Stop();
+            SimGamePad.Instance.Unplug();
             return;
         }
 

@@ -19,6 +19,7 @@ using Stylet;
 using StyletIoC;
 using Wpf.Ui.Mvvm.Contracts;
 using Wpf.Ui.Mvvm.Services;
+using SimWinInput;
 
 namespace GenshinLyreMidiPlayer.WPF;
 
@@ -42,6 +43,10 @@ public class Bootstrapper : Bootstrapper<MainWindowViewModel>
 
     protected override void ConfigureIoC(IStyletIoCBuilder builder)
     {
+        // I'm not sure if I should do it here, or where.
+        // So I'll leave it here for now...
+        SimGamePad.Instance.Initialize();
+
         var config = ConfigurationManager
             .OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
 

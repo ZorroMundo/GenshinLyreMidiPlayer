@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using SimWinInput;
 using WindowsInput.Native;
 
 namespace GenshinLyreMidiPlayer.WPF.Core;
@@ -26,7 +27,8 @@ public static class Keyboard
         DVORAK,
         DVORAKLeft,
         DVORAKRight,
-        Colemak
+        Colemak,
+        Joystick,
     }
 
     public static readonly Dictionary<Instrument, string> InstrumentNames = new()
@@ -46,6 +48,7 @@ public static class Keyboard
         [Layout.DVORAKLeft]  = "DVORAK Left Handed",
         [Layout.DVORAKRight] = "DVORAK Right Handed",
         [Layout.Colemak]     = "Colemak",
+        [Layout.Joystick]    = "Joystick (Beta)",
     };
 
     private static readonly IReadOnlyList<VirtualKeyCode> AZERTY = new List<VirtualKeyCode>
@@ -237,6 +240,35 @@ public static class Keyboard
         VirtualKeyCode.VK_U,
     };
 
+    // This is for the Joystick.
+
+    private static readonly IReadOnlyList<GamePadControl> JOYSTICK = new List<GamePadControl>
+    {
+        GamePadControl.RightShoulder | GamePadControl.DPadLeft,
+        GamePadControl.RightShoulder | GamePadControl.DPadUp,
+        GamePadControl.RightShoulder | GamePadControl.DPadRight,
+        GamePadControl.RightShoulder | GamePadControl.DPadDown,
+        GamePadControl.RightShoulder | GamePadControl.X,
+        GamePadControl.RightShoulder | GamePadControl.Y,
+        GamePadControl.RightShoulder | GamePadControl.B,
+
+        GamePadControl.DPadLeft,
+        GamePadControl.DPadUp,
+        GamePadControl.DPadRight,
+        GamePadControl.DPadDown,
+        GamePadControl.X,
+        GamePadControl.Y,
+        GamePadControl.B,
+
+        GamePadControl.LeftShoulder | GamePadControl.DPadLeft,
+        GamePadControl.LeftShoulder | GamePadControl.DPadUp,
+        GamePadControl.LeftShoulder | GamePadControl.DPadRight,
+        GamePadControl.LeftShoulder | GamePadControl.DPadDown,
+        GamePadControl.LeftShoulder | GamePadControl.X,
+        GamePadControl.LeftShoulder | GamePadControl.Y,
+        GamePadControl.LeftShoulder | GamePadControl.B,
+    };
+
     // This goes from down to up in-game.
 
     private static readonly List<int> DefaultNotes = new()
@@ -310,6 +342,14 @@ public static class Keyboard
         70, // G4
         72, // A4
         74, // B4
+
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
     };
 
     public static IEnumerable<VirtualKeyCode> GetLayout(Layout layout) => layout switch
@@ -322,6 +362,12 @@ public static class Keyboard
         Layout.DVORAKRight => DVORAKRight,
         Layout.Colemak     => Colemak,
         _                  => QWERTY
+    };
+
+    public static IEnumerable<GamePadControl> GetJoyLayout(Layout layout) => layout switch
+    {
+        Layout.Joystick => JOYSTICK,
+        _               => JOYSTICK,
     };
 
     public static IList<int> GetNotes(Instrument instrument) => instrument switch
