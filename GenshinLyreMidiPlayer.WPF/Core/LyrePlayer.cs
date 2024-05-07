@@ -50,7 +50,7 @@ public static class LyrePlayer
 
     public static void NoteDown(int noteId, Layout layout, Instrument instrument)
     {
-        if (layout == Layout.Joystick)
+        if (layout != Layout.Joystick)
             InteractNote(noteId, layout, instrument, Input.Keyboard.KeyDown);
         else
             InteractNoteJoy(noteId, layout, instrument, JoyInputType.Down);
@@ -58,7 +58,7 @@ public static class LyrePlayer
 
     public static void NoteUp(int noteId, Layout layout, Instrument instrument)
     {
-        if (layout == Layout.Joystick)
+        if (layout != Layout.Joystick)
             InteractNote(noteId, layout, instrument, Input.Keyboard.KeyUp);
         else
             InteractNoteJoy(noteId, layout, instrument, JoyInputType.Up);
@@ -66,7 +66,7 @@ public static class LyrePlayer
 
     public static void PlayNote(int noteId, Layout layout, Instrument instrument)
     {
-        if (layout == Layout.Joystick)
+        if (layout != Layout.Joystick)
             InteractNote(noteId, layout, instrument, Input.Keyboard.KeyPress);
         else
             InteractNoteJoy(noteId, layout, instrument, JoyInputType.Press);
