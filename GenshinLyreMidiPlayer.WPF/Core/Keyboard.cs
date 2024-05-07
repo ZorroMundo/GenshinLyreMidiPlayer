@@ -342,14 +342,6 @@ public static class Keyboard
         70, // G4
         72, // A4
         74, // B4
-
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
     };
 
     public static IEnumerable<VirtualKeyCode> GetLayout(Layout layout) => layout switch
